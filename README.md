@@ -20,4 +20,4 @@ Para iniciar la aplicación en tu entorno local, ejecuta `npm start` o `npm run 
 
 Este proyecto requiere que la implementación de una API esté en ejecución en tu entorno local. Asegúrate de tener un servicio de API en ejecución en `http://localhost:8088`.
 
-Puedes encontrar la implementación de la API en el siguiente repositorio: [API Facets](). Encontrarás instrucciones sobre cómo ejecutar la implementación de la API en el archivo `README.md` del repositorio.
+Puedes encontrar la implementación de la API en el siguiente repositorio: [API Facets](https://github.com/UnirCs/back-end-facets). Encontrarás instrucciones sobre cómo ejecutar la implementación de la API en el archivo `README.md` del repositorio.
