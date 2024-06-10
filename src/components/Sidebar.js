@@ -20,7 +20,7 @@ const Sidebar = ({ facets, onFacetChange, selectedFacets }) => {
                                 className={`facet-option ${selectedFacets[facetKey] && selectedFacets[facetKey].includes(facetValue.key) ? 'selected' : ''}`}
                                 onClick={() => onFacetChange(facetKey, facetValue.key)}
                             >
-                                {facetValue.key} ({facetValue.count})
+                                {translations.get(facetValue.key) ? translations.get(facetValue.key) : facetValue.key} ({facetValue.count})
                             </div>
                         ))}
                     </div>
