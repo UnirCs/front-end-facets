@@ -31,6 +31,7 @@ const EmployeeList = ({ employees, loadMore }) => {
                             <span className="badge marital-status">{employee.maritalStatus}</span>
                             <span className="badge age">{employee.age} years</span>
                             <span className="badge salary">${employee.salary.toLocaleString()}</span>
+                            <span className="badge address"><p>📍{employee.address}</p></span>
                         </div>
                         <p>{employee.interests}</p>
                     </div>

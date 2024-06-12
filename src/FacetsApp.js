@@ -34,7 +34,6 @@ const FacetsApp = () => {
             });
     }, [facetsUrl, page]);
 
-
     /**
      * Este método se encarga de gestionar el cambio de una faceta, cuando se hace click en una de las opciones de la barra lateral.
      * Actualiza varias variables de estado y la URL para hacer la petición a la API con los nuevos parámetros.
@@ -45,43 +44,49 @@ const FacetsApp = () => {
 
         //Se actualizan las facetas seleccionadas
         setSelectedFacets(prevState => {
-            const newState = { ...prevState };
+            const newState = {...prevState};
 
             if (newState[facetKey] && newState[facetKey].includes(facetValue)) {
                 newState[facetKey] = newState[facetKey].filter(value => value !== facetValue);
-            }
-            else {
+            } else {
                 newState[facetKey] = newState[facetKey] ? [...newState[facetKey], facetValue] : [facetValue];
             }
             return newState;
         });
 
-        //Si actualmente ya se ha seleccionado la faceta, se valora si se quita todo el parametro o una parte, o se incluye
-        if (facetsQueryParams.has(facetKey)) {
-            const selectedFacetValues = facetsQueryParams.get(facetKey).split(',');
-            let newSelectedFacetValues = [];
+        //Si la faceta es de nombre o dirección, se añade directamente a la URL y se reemplaza si ya existía
+        if (facetKey === "name" || facetKey === "address") {
+            facetsQueryParams.set(facetKey, facetValue);
+        }
 
-            //Se comprueba si el valor seleccionado ya estaba en la lista de valores seleccionados
-            if (selectedFacetValues.includes(facetValue)) {
-                if(selectedFacetValues.length === 1) {
-                    facetsQueryParams.delete(facetKey);
+        //Si actualmente ya se ha seleccionado la faceta, se valora si se quita todo el parametro o una parte, o se incluye
+        else {
+            if (facetsQueryParams.has(facetKey)) {
+                const selectedFacetValues = facetsQueryParams.get(facetKey).split(',');
+                let newSelectedFacetValues = [];
+
+                //Se comprueba si el valor seleccionado ya estaba en la lista de valores seleccionados
+                if (selectedFacetValues.includes(facetValue)) {
+                    if (selectedFacetValues.length === 1) {
+                        facetsQueryParams.delete(facetKey);
+                    } else {
+                        newSelectedFacetValues = selectedFacetValues.filter(value => value !== facetValue);
+                    }
                 } else {
-                    newSelectedFacetValues = selectedFacetValues.filter(value => value !== facetValue);
+                    //Se añade el valor seleccionado a la lista de valores seleccionados
+                    selectedFacetValues.push(facetValue);
+                    newSelectedFacetValues = selectedFacetValues;
+                }
+
+                //Si hubiese mas de un valor seleccionado para una faceta, se juntan en un solo string separado por comas
+                if (newSelectedFacetValues.length > 0) {
+                    facetsQueryParams.set(facetKey, newSelectedFacetValues.join(','));
                 }
             } else {
-                //Se añade el valor seleccionado a la lista de valores seleccionados
-                selectedFacetValues.push(facetValue);
-                newSelectedFacetValues = selectedFacetValues;
-            }
 
-            //Si hubiese mas de un valor seleccionado para una faceta, se juntan en un solo string separado por comas
-            if(newSelectedFacetValues.length > 0) {
-                facetsQueryParams.set(facetKey, newSelectedFacetValues.join(','));
+                //Si no se ha seleccionado la faceta previamente, se añade a la lista de parametros
+                facetsQueryParams.set(facetKey, facetValue);
             }
-        } else {
-
-            //Si no se ha seleccionado la faceta previamente, se añade a la lista de parametros
-            facetsQueryParams.set(facetKey, facetValue);
         }
 
         //Se actualizan variables de estado y se resetea el numero de pagina actual y la lista actual de empleados
