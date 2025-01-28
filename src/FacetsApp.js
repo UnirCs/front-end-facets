@@ -8,7 +8,7 @@ import {exampleData} from "./utils/mockData";
 const FacetsApp = () => {
 
     // Variables de estado
-    const url = "http://localhost:8088/facets?";
+    const url = process.env.REACT_APP_API_URL || "http://localhost:8088/facets?";
     const [facets, setFacets] = useState({});
     const [employees, setEmployees] = useState([]);
     const [selectedFacets, setSelectedFacets] = useState({});
